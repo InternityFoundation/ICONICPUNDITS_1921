@@ -74,23 +74,26 @@
                     android:orientation="vertical"
                     android:layout_marginBottom="20dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/g" />
+                        android:src="@drawable/g"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
-                        android:text="Text"
+                        android:text="Grocery Stores"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal" />
+                        android:gravity="center_horizontal"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -114,22 +117,26 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
                     <ImageView
                         android:src="@drawable/market"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
-                        android:text="Text2"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Super Markets"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -156,22 +163,26 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
                     <ImageView
                         android:src="@drawable/pharmacy"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
-                        android:text="Text3"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Medical Stores"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -195,22 +206,26 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
                     <ImageView
                         android:src="@drawable/shop"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
                         android:text="Text4"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -242,16 +257,19 @@
                         android:src="@drawable/fishmarket"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
                         android:text="Text"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -275,22 +293,26 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
 
                     <ImageView
                         android:src="@drawable/petshop"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
+                        android:layout_gravity="center_horizontal"
                         android:text="Text2"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
