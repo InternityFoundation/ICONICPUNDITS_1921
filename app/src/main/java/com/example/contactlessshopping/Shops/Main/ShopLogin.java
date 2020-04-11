@@ -86,80 +86,6 @@ public class ShopLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_login);
 
-//        auth = FirebaseAuth.getInstance();
-////        if (auth.getCurrentUser() != null) {
-////            startActivity(new Intent(ShopLogin.this, ShopMainActivity.class));
-////            finish();
-////        }
-//
-//        editTextEmail      = (EditText) findViewById(R.id.email);
-//        editTextPassword   = (EditText) findViewById(R.id.password);
-////        progressDialog = new ProgressDialog(this);
-//        lottieAnimationView=findViewById(R.id.loading);
-//        btnSignup          = (Button) findViewById(R.id.btn_signup);
-//        btnLogin           = (Button) findViewById(R.id.btn_login);
-//
-//
-//
-//        //btnReset           = (Button) findViewById(R.id.btn_reset_password);
-//
-//
-//
-//        btnSignup.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(ShopLogin.this, ShopRegistration.class));
-//            }
-//        });
-//
-//        btnLogin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String email = editTextEmail.getText().toString();
-//                final String password = editTextPassword.getText().toString();
-//
-//                if (TextUtils.isEmpty(email)) {
-//                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(password)) {
-//                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-////                progressDialog.setMessage("Please Wait...");
-////                progressDialog.show();
-//                lottieAnimationView.setVisibility(View.VISIBLE);
-//                lottieAnimationView.playAnimation();
-//                //authenticate user
-//                auth.signInWithEmailAndPassword(email, password)
-//                        .addOnCompleteListener(ShopLogin.this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-////
-//                                lottieAnimationView.cancelAnimation();
-//                                lottieAnimationView.setVisibility(View.INVISIBLE);
-////                                progressDialog.dismiss();
-//                                if (!task.isSuccessful()) {
-//                                    // there was an error
-//                                    if (password.length() < 6) {
-//                                        editTextPassword.setError("Password should be greater than 6 digits");
-//                                    }else {
-//                                        Toast.makeText(ShopLogin.this, "Auth Fail", Toast.LENGTH_LONG).show();
-//                                    }
-//                                } else {
-//                                    Intent intent = new Intent(ShopLogin.this, ShopMainActivity.class);
-//                                    startActivity(intent);
-//                                    finish();
-//                                    lottieAnimationView.cancelAnimation();
-//                                    lottieAnimationView.setVisibility(View.INVISIBLE);
-//                                }
-//                            }
-//                        });
-//            }
-//        });
-
         phone = findViewById(R.id.phone);
         optEnter = findViewById(R.id.codeEnter);
         countryCodePicker = findViewById(R.id.ccp);
@@ -286,47 +212,6 @@ public class ShopLogin extends AppCompatActivity {
     }
 
     private void checkUserProfile() {
-        DocumentReference docRef;
-//                            docRef = fStore.collection("shops").document(Objects.requireNonNull(mAuth.getUid()));
-//                            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//                                @Override
-//                                public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                                    if (documentSnapshot.exists()) {
-//                                        String shop_category = documentSnapshot.get("shop_category").toString();
-//                                        Toast.makeText(ShopLogin.this, ""+ shop_category, Toast.LENGTH_SHORT).show();
-//                                        if (shop_category.equals("Grocery Store")) {
-//                                            startActivity(new Intent(getApplicationContext(), ShopMainActivity.class));
-//                                            finish();
-//                                        }
-//                                        if (shop_category.equals("Medical Store")) {
-//                                            startActivity(new Intent(getApplicationContext(), Medical_MainActivity.class));
-//                                            finish();
-//                                        }
-//                                        if (shop_category.equals("Supermarket")) {
-//                                            startActivity(new Intent(getApplicationContext(), Supermarket_MainActivity.class));
-//                                            finish();
-//                                        }
-////                    finish();
-//                                    } else {
-//                                        //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
-//
-//                                        Intent intent = new Intent(ShopLogin.this, ShopRegistration.class);
-//                                        intent.putExtra("intendAuthUID", mAuth.getUid());
-//                                        intent.putExtra("intentPhoneNumber", editText.getText().toString());
-////
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        startActivity(intent);
-////
-////                    startActivity(new Intent(getApplicationContext(), ShopRegistration.class));
-////                    finish();
-//                                    }
-//                                }
-//                            }).addOnFailureListener(new OnFailureListener() {
-//                                @Override
-//                                public void onFailure(@NonNull Exception e) {
-//                                    Toast.makeText(ShopLogin.this, "Profile Do Not Exists", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
 
                             noteRef = db.collection("shops").document(fAuth.getUid());
                             noteRef.get()
