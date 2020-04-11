@@ -23,6 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.contactlessshopping.Customers.Supermarket.Supermarket_MainActivity;
 import com.example.contactlessshopping.MainActivity;
 import com.example.contactlessshopping.R;
 import com.google.android.gms.location.LocationCallback;
@@ -366,7 +367,7 @@ public class ShopRegistration extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     //Toast.makeText(PatientRegister.this, "Data saved", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(ShopRegistration.this, MainActivity.class));
+                                    startActivity(new Intent(ShopRegistration.this, Supermarket_MainActivity.class));
                                     finish();
                                 }
                             })

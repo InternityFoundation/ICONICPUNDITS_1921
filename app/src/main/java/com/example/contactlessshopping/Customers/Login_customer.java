@@ -69,13 +69,13 @@ public class Login_customer extends AppCompatActivity {
     FirebaseAuth fAuth;
     String otpCode;
     String verificationId;
-    EditText phone,optEnter;
+    EditText phone, optEnter;
     Button next;
     CountryCodePicker countryCodePicker;
     PhoneAuthCredential credential;
     Boolean verificationOnProgress = false;
     ProgressBar progressBar;
-    TextView state,resend;
+    TextView state, resend;
     PhoneAuthProvider.ForceResendingToken token;
     FirebaseFirestore fStore;
 
@@ -105,31 +105,31 @@ public class Login_customer extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!phone.getText().toString().isEmpty() && phone.getText().toString().length() == 10) {
-                    if(!verificationOnProgress){
+                if (!phone.getText().toString().isEmpty() && phone.getText().toString().length() == 10) {
+                    if (!verificationOnProgress) {
                         next.setEnabled(false);
                         progressBar.setVisibility(View.VISIBLE);
                         state.setVisibility(View.VISIBLE);
-                        String phoneNum = "+"+countryCodePicker.getSelectedCountryCode()+phone.getText().toString();
+                        String phoneNum = "+" + countryCodePicker.getSelectedCountryCode() + phone.getText().toString();
                         Log.d("phone", "Phone No.: " + phoneNum);
                         requestPhoneAuth(phoneNum);
-                    }else {
+                    } else {
                         next.setEnabled(false);
                         optEnter.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         state.setText("Logging in");
                         state.setVisibility(View.VISIBLE);
                         otpCode = optEnter.getText().toString();
-                        if(otpCode.isEmpty()){
+                        if (otpCode.isEmpty()) {
                             optEnter.setError("Required");
                             return;
                         }
 
-                        credential = PhoneAuthProvider.getCredential(verificationId,otpCode);
+                        credential = PhoneAuthProvider.getCredential(verificationId, otpCode);
                         verifyAuth(credential);
                     }
 
-                }else {
+                } else {
                     phone.setError("Valid Phone Required");
                 }
             }
@@ -139,8 +139,8 @@ public class Login_customer extends AppCompatActivity {
     }
 
     private void requestPhoneAuth(String phoneNumber) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber,60L, TimeUnit.SECONDS,this,
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60L, TimeUnit.SECONDS, this,
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                     @Override
                     public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
@@ -185,10 +185,10 @@ public class Login_customer extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(Login_customer.this, "Phone Verified."+ Objects.requireNonNull(fAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(Login_customer.this, "Phone Verified." + Objects.requireNonNull(fAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
                     checkUserProfile();
-                }else {
+                } else {
                     progressBar.setVisibility(View.GONE);
                     state.setVisibility(View.GONE);
                     Toast.makeText(Login_customer.this, "Can not Verify phone and Create Account.", Toast.LENGTH_SHORT).show();
@@ -201,7 +201,7 @@ public class Login_customer extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(fAuth.getCurrentUser() != null){
+        if (fAuth.getCurrentUser() != null) {
             progressBar.setVisibility(View.VISIBLE);
             state.setText("Checking..");
             state.setVisibility(View.VISIBLE);
@@ -217,14 +217,20 @@ public class Login_customer extends AppCompatActivity {
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
+                if (documentSnapshot.exists()) {
 
                     startActivity(new Intent(getApplicationContext(), Customer_MainActivity.class));
                     finish();
-                }else {
-                    //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), Customer_registration.class));
-                    finish();
+                } else {
+//                    //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(getApplicationContext(), Customer_registration.class));
+//                    finish();
+                    Intent intent = new Intent(Login_customer.this, Customer_registration.class);
+                    intent.putExtra("intendAuthUID", fAuth.getUid());
+                    //intent.putExtra("intentPhoneNumber", phone.getText().toString());
+//
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {

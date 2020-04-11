@@ -35,6 +35,7 @@ public class Customer_registration extends AppCompatActivity {
     EditText emailid,password,name,custno;
     String sname,semail,spass,scustno;
     Button submit;
+    String IntendedauthID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +49,15 @@ public class Customer_registration extends AppCompatActivity {
 
 
 
-// ...
 // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
+        final Intent intent = getIntent();
+        IntendedauthID = intent.getStringExtra("intendAuthUID");
+       // Intendedphonenumber = intent.getStringExtra("intentPhoneNumber");
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
 
                  semail=emailid.getText().toString();
                  spass=password.getText().toString();
@@ -99,7 +99,7 @@ public class Customer_registration extends AppCompatActivity {
                             note.put("emailid",semail);
                             note.put("Customer_no",scustno);
 
-                            db.collection("customers").document(mAuth.getUid()).set(note)
+                            db.collection("customers").document(IntendedauthID).set(note)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
@@ -119,7 +119,7 @@ public class Customer_registration extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Successfull:", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent=new Intent(Customer_registration.this,Login_customer.class);
+                            Intent intent=new Intent(Customer_registration.this,Customer_MainActivity.class);
                             startActivity(intent);
 
                         } else {
