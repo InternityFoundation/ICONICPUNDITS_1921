@@ -44,7 +44,7 @@
 
         <GridLayout
             android:id="@+id/mainGrid"
-            android:rowCount="3"
+            android:rowCount="4"
             android:columnCount="2"
             android:alignmentMode="alignMargins"
             android:columnOrderPreserved="false"
@@ -83,19 +83,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/groceryicon"
-                       android:layout_weight="0.9"/>
+                       android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
                         android:text="Grocery Store"
                         android:textColor="@color/black"
-                        android:layout_gravity="center"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
-                        />
+                        android:layout_weight="0.2"/>
 
                 </LinearLayout>
 
@@ -127,14 +126,13 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"/>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
                         android:text="Super Market"
                         android:textColor="#000"
                         android:textSize="15sp"
-                        android:layout_gravity="center"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -173,7 +171,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"/>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
@@ -181,7 +179,6 @@
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"/>
@@ -216,7 +213,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"/>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
@@ -224,7 +221,6 @@
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"/>
@@ -261,7 +257,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"/>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
@@ -269,7 +265,6 @@
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"/>
@@ -300,11 +295,11 @@
                     android:weightSum="1">
 
                     <ImageView
-                        android:src="@drawable/butcher"
+                        android:src="@drawable/wheat"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.9"/>
+                        android:layout_weight="0.8"/>
 
                     <TextView
                         android:textAlignment="center"
@@ -312,7 +307,92 @@
                         android:textColor="#000"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- ROW 3  -->
+            <!-- COLUMN 1  -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="16dp"
+                android:layout_rowWeight="1"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardElevation="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:src="@drawable/butcher"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:text="Butcher Shop"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- COLUMN 2  -->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_columnWeight="1"
+                android:layout_marginBottom="16dp"
+                android:layout_rowWeight="1"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:cardElevation="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:src="@drawable/dogfood"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8"/>
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:text="Pet Care"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
