@@ -27,6 +27,7 @@
         <activity android:name=".Shops.PhoneAuthLogin.LoginTemp" >
 
         </activity>
+        <activity android:name=".Shops.shop_profile"/>
         <activity android:name=".Customers.ManageOrders" />
         <activity android:name=".Customers.profile_customer" />
         <activity android:name=".Customers.ShopDetails" />
@@ -47,6 +48,7 @@
         <activity android:name=".Shops.Main.OrderDetails" />
         <activity android:name=".Shops.ShopMainActivity" />
         <activity android:name=".Shops.Main.ShopLogin"/>
+        <activity android:name=".Customers.Customer_survey"/>
 
 
     </application>

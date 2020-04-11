@@ -126,6 +126,8 @@ public class customer_dash extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.item1:
+                        startActivity(new Intent(getApplicationContext(),customer_dash.class));
+                        overridePendingTransition(0,0);
                         return true;
 
                     case R.id.item2:
