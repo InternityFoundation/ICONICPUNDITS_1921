@@ -218,15 +218,20 @@ public class Login_customer extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-
-                    startActivity(new Intent(getApplicationContext(), Customer_MainActivity.class));
-                    finish();
+                    Intent intent = new Intent(Login_customer.this, customer_dash.class);
+                    intent.putExtra("intendLatitude", LAT);
+                    intent.putExtra("intentLongitude", LON);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Toast.makeText(Login_customer.this, "Successfull Login", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
                 } else {
 //                    //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
 //                    startActivity(new Intent(getApplicationContext(), Customer_registration.class));
 //                    finish();
                     Intent intent = new Intent(Login_customer.this, Customer_registration.class);
                     intent.putExtra("intendAuthUID", fAuth.getUid());
+                    intent.putExtra("intendLatitude", LAT);
+                    intent.putExtra("intentLongitude", LON);
                     //intent.putExtra("intentPhoneNumber", phone.getText().toString());
 //
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
