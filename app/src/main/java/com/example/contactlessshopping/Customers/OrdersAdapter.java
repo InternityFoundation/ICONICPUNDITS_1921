@@ -1,12 +1,15 @@
 package com.example.contactlessshopping.Customers;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contactlessshopping.R;
@@ -30,6 +33,7 @@ public class OrdersAdapter extends FirestoreRecyclerAdapter<OrderModel, OrdersAd
         super(options);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onBindViewHolder(@NonNull OrdersAdapter.NoteHolder holder, int i, @NonNull OrderModel model) {
@@ -39,17 +43,17 @@ public class OrdersAdapter extends FirestoreRecyclerAdapter<OrderModel, OrdersAd
         if(Integer.parseInt(model.getStatus())==1)
         {
             holder.textViewStatus.setText("Slot not Allocated");
-            holder.textViewStatus.setTextColor(R.color.red);
+            holder.textViewStatus.setTextColor(Color.RED);
         }
         else if(Integer.parseInt(model.getStatus())==2)
         {
             holder.textViewStatus.setText("Pick Up Pending");
-            holder.textViewStatus.setTextColor(R.color.green);
+            holder.textViewStatus.setTextColor(Color.GREEN);
         }
         else if(Integer.parseInt(model.getStatus())==3)
         {
             holder.textViewStatus.setText("Give Feedback");
-            holder.textViewStatus.setTextColor(R.color.red);
+            holder.textViewStatus.setTextColor(Color.RED);
         }
 
     }
