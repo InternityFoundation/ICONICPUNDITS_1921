@@ -3,10 +3,20 @@ package com.example.contactlessshopping.Shops.Main;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -17,6 +27,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.contactlessshopping.Customers.Customer_registration;
+import com.example.contactlessshopping.Customers.Login_customer;
 import com.example.contactlessshopping.Customers.Medical.Medical_MainActivity;
 import com.example.contactlessshopping.Customers.ShopDetails;
 import com.example.contactlessshopping.Customers.Supermarket.Supermarket_MainActivity;
@@ -25,6 +38,11 @@ import com.example.contactlessshopping.Shops.PhoneAuthLogin.CountryData;
 import com.example.contactlessshopping.Shops.PhoneAuthLogin.LoginTemp;
 import com.example.contactlessshopping.Shops.ShopMainActivity;
 import com.example.contactlessshopping.Shops.ShopRegistration;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,35 +65,27 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 
-
-
-
-
-
-
-
-
 public class ShopLogin extends AppCompatActivity {
 
 
-//    private EditText editTextEmail, editTextPassword;
-//    private FirebaseAuth auth;
-////    private ProgressDialog progressDialog;
-//    LottieAnimationView lottieAnimationView;
-//    private Button btnSignup, btnLogin, btnReset;
-//    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    LottieAnimationView lottieAnimationView;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private FirebaseAuth mAuth;
+    int PERMISSION_ID = 44;
+    FusedLocationProviderClient mFusedLocationClient;
+    String LAT, LON;
+    double dlat, dlon;
 
     FirebaseAuth fAuth;
     String otpCode;
     String verificationId;
-    EditText phone,optEnter;
+    EditText phone, optEnter;
     Button next;
     CountryCodePicker countryCodePicker;
     PhoneAuthCredential credential;
     Boolean verificationOnProgress = false;
     ProgressBar progressBar;
-    TextView state,resend;
+    TextView state, resend;
     PhoneAuthProvider.ForceResendingToken token;
     FirebaseFirestore fStore;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -95,7 +105,7 @@ public class ShopLogin extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         state = findViewById(R.id.state);
         resend = findViewById(R.id.resendOtpBtn);
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,35 +113,42 @@ public class ShopLogin extends AppCompatActivity {
             }
         });
 
-
+        if (ContextCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    ShopLogin.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION_PERMISSION
+            );
+        }
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!phone.getText().toString().isEmpty() && phone.getText().toString().length() == 10) {
-                    if(!verificationOnProgress){
+                if (!phone.getText().toString().isEmpty() && phone.getText().toString().length() == 10) {
+                    if (!verificationOnProgress) {
                         next.setEnabled(false);
                         progressBar.setVisibility(View.VISIBLE);
                         state.setVisibility(View.VISIBLE);
-                        String phoneNum = "+"+countryCodePicker.getSelectedCountryCode()+phone.getText().toString();
+                        String phoneNum = "+" + countryCodePicker.getSelectedCountryCode() + phone.getText().toString();
                         Log.d("phone", "Phone No.: " + phoneNum);
                         requestPhoneAuth(phoneNum);
-                    }else {
+                    } else {
                         next.setEnabled(false);
                         optEnter.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         state.setText("Logging in");
                         state.setVisibility(View.VISIBLE);
                         otpCode = optEnter.getText().toString();
-                        if(otpCode.isEmpty()){
+                        if (otpCode.isEmpty()) {
                             optEnter.setError("Required");
                             return;
                         }
 
-                        credential = PhoneAuthProvider.getCredential(verificationId,otpCode);
+                        credential = PhoneAuthProvider.getCredential(verificationId, otpCode);
                         verifyAuth(credential);
                     }
 
-                }else {
+                } else {
                     phone.setError("Valid Phone Required");
                 }
             }
@@ -141,8 +158,8 @@ public class ShopLogin extends AppCompatActivity {
     }
 
     private void requestPhoneAuth(String phoneNumber) {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber,60L, TimeUnit.SECONDS,this,
-                new PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(phoneNumber, 60L, TimeUnit.SECONDS, this,
+                new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
                     @Override
                     public void onCodeAutoRetrievalTimeOut(@NonNull String s) {
@@ -187,10 +204,10 @@ public class ShopLogin extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(ShopLogin.this, "Phone Verified."+ Objects.requireNonNull(fAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(ShopLogin.this, "Phone Verified." + Objects.requireNonNull(fAuth.getCurrentUser()).getUid(), Toast.LENGTH_SHORT).show();
                     checkUserProfile();
-                }else {
+                } else {
                     progressBar.setVisibility(View.GONE);
                     state.setVisibility(View.GONE);
                     Toast.makeText(ShopLogin.this, "Can not Verify phone and Create Account.", Toast.LENGTH_SHORT).show();
@@ -203,7 +220,7 @@ public class ShopLogin extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if(fAuth.getCurrentUser() != null){
+        if (fAuth.getCurrentUser() != null) {
             progressBar.setVisibility(View.VISIBLE);
             state.setText("Checking..");
             state.setVisibility(View.VISIBLE);
@@ -213,51 +230,173 @@ public class ShopLogin extends AppCompatActivity {
 
     private void checkUserProfile() {
 
-                            noteRef = db.collection("shops").document(fAuth.getUid());
-                            noteRef.get()
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String shop_category = documentSnapshot.getString("shop_category");
+        noteRef = db.collection("shops").document(fAuth.getUid());
+        noteRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String shop_category = documentSnapshot.getString("shop_category");
 
-                                                Toast.makeText(ShopLogin.this, "" + fAuth.getUid() + "=" + shop_category, Toast.LENGTH_SHORT).show();
-                                                if (shop_category.equals("Grocery Store")) {
-                                                    startActivity(new Intent(getApplicationContext(), ShopMainActivity.class));
-                                                    finish();
-                                                }
-                                                if (shop_category.equals("Medical Store")) {
-                                                    startActivity(new Intent(getApplicationContext(), Medical_MainActivity.class));
-                                                    finish();
-                                                }
-                                                if (shop_category.equals("Supermarket")) {
-                                                    startActivity(new Intent(getApplicationContext(), Supermarket_MainActivity.class));
-                                                    finish();
-                                                }
-//                    finish();
-                                            } else {
-                                                //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
-
-                                                Intent intent = new Intent(ShopLogin.this, ShopRegistration.class);
-                                                intent.putExtra("intendAuthUID", fAuth.getUid());
-                                                intent.putExtra("intentPhoneNumber", phone.getText().toString());
+                            Toast.makeText(ShopLogin.this, "" + fAuth.getUid() + "=" + shop_category, Toast.LENGTH_SHORT).show();
+                            if (shop_category.equals("Grocery Store")) {
+                                Intent intent = new Intent(ShopLogin.this, ShopMainActivity.class);
+                                intent.putExtra("intendAuthUID", fAuth.getUid());
+                                intent.putExtra("intendLatitude", LAT);
+                                intent.putExtra("intentLongitude", LON);
+                                //intent.putExtra("intentPhoneNumber", phone.getText().toString());
 //
-                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                startActivity(intent);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                            if (shop_category.equals("Medical Store")) {
+                                Intent intent = new Intent(ShopLogin.this, Medical_MainActivity.class);
+                                intent.putExtra("intendAuthUID", fAuth.getUid());
+                                intent.putExtra("intendLatitude", LAT);
+                                intent.putExtra("intentLongitude", LON);
+                                //intent.putExtra("intentPhoneNumber", phone.getText().toString());
+//
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                            if (shop_category.equals("Supermarket")) {
+
+                                Intent intent = new Intent(ShopLogin.this, Supermarket_MainActivity.class);
+                                intent.putExtra("intendAuthUID", fAuth.getUid());
+                                intent.putExtra("intendLatitude", LAT);
+                                intent.putExtra("intentLongitude", LON);
+                                //intent.putExtra("intentPhoneNumber", phone.getText().toString());
+//
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+//                    finish();
+                        } else {
+                            //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(ShopLogin.this, ShopRegistration.class);
+                            intent.putExtra("intendAuthUID", fAuth.getUid());
+                            intent.putExtra("intentPhoneNumber", phone.getText().toString());
+//
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
 //
 //                    startActivity(new Intent(getApplicationContext(), ShopRegistration.class));
 //                    finish();
-                                            }
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
-                                        }
-                                    });
+                    }
+                });
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(
+                        new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                Location location = task.getResult();
+                                if (location == null) {
+                                    requestNewLocationData();
+                                } else {
+                                    dlat = location.getLatitude();
+                                    LAT = String.valueOf(dlat);
+                                    dlon = location.getLongitude();
+                                    LON = String.valueOf(dlon);
+                                }
+                            }
+                        }
+                );
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
+        );
+
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            dlat = mLastLocation.getLatitude();
+            LAT = String.valueOf(dlat);
+            dlon = mLastLocation.getLongitude();
+            LON = String.valueOf(dlon);
+        }
+    };
+
+    private boolean checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_ID
+        );
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkPermissions()) {
+            getLastLocation();
+        }
+
     }
 }
+
 
 //public class ShopLogin extends AppCompatActivity {
 //

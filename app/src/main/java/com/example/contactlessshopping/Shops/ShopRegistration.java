@@ -98,7 +98,7 @@ public class ShopRegistration extends AppCompatActivity {
        // editTextEmail = (EditText) findViewById(R.id.idEmail);
        // editTextPassword = (EditText) findViewById(R.id.idPassword);
        // editTextPhoneNumber = (EditText) findViewById(R.id.idPhoneNumber);
-        //progressDialog
+
         progressDialog = new ProgressDialog(this);
 
 
