@@ -123,7 +123,7 @@ public class fishmarket_details extends AppCompatActivity {
                                                     Map<String, Object> map = new HashMap<>();
                                                     map.put("token_no", token_no);
                                                     Toast.makeText(com.example.contactlessshopping.Customers.Fishmarket.fishmarket_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_supermarket", token_no);
+                                                    db.collection("customers").document(auth.getUid().toString()).update("token_fishmarket", token_no);
                                                     Toast.makeText(com.example.contactlessshopping.Customers.Fishmarket.fishmarket_details.this, token_no, Toast.LENGTH_SHORT).show();
                                                     token.setText(token_no);
                                                     break;
@@ -140,7 +140,7 @@ public class fishmarket_details extends AppCompatActivity {
                                                     Map<String, Object> map = new HashMap<>();
                                                     map.put("token_no", token_no);
                                                     Toast.makeText(com.example.contactlessshopping.Customers.Fishmarket.fishmarket_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_supermarket", token_no);
+                                                    db.collection("customers").document(auth.getUid().toString()).update("token_fishmarket", token_no);
                                                     Toast.makeText(com.example.contactlessshopping.Customers.Fishmarket.fishmarket_details.this, token_no, Toast.LENGTH_SHORT).show();
                                                     token.setText(token_no);
                                                     break;
