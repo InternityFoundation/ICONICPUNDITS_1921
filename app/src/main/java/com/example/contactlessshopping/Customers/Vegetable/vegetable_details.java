@@ -174,34 +174,33 @@ public class vegetable_details extends AppCompatActivity {
                             }
                         });
 
-                db.collection("tokens").document(auth.getUid()).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        get_token.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(vegetable_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
-                                        token.setText(document.get("token_no").toString());
-                                        slot.setText(document.get("slot_allocated").toString());
-                                        shop.setText(shop_name);
-
-
-                                    } else {
-                                        Log.d("", "No Appointment found");
-                                        card.setVisibility(View.INVISIBLE);
-                                    }
-                                } else {
-                                    Log.d("", "get failed with ", task.getException());
-                                }
-                            }
-                        });
-
-
-
             }
         });
+
+        db.collection("tokens").document(auth.getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                get_token.setVisibility(View.INVISIBLE);
+                                Toast.makeText(vegetable_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
+                                token.setText(document.get("token_no").toString());
+                                slot.setText(document.get("slot_allocated").toString());
+                                shop.setText(shop_name);
+
+
+                            } else {
+                                Log.d("", "No Appointment found");
+                                card.setVisibility(View.INVISIBLE);
+                            }
+                        } else {
+                            Log.d("", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
 
     }
 }
