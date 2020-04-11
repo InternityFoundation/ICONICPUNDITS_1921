@@ -15,6 +15,7 @@ We propose a solution to this problem. A mobile application can be built which c
 The overcrowding of shops(Grocery Stores,Pharmaceutical Stores,Super Markets) will stop by the use of this application.All the people who want to buy any product will use this application to avail the essential services.It will ensure undisturbed supply of the essential services assuring that all the social distancing measures are followed.It will assist the store owners in managing the crowd.
 
 ### Authors
-@bhosaleharshita
-@ap299
-@rutujakanki
+* [Hrishikesh](https://github.com/knowhrishi)
+* [Akash](https://github.com/ap299) 
+* [Harshita Bhosale](https://github.com/bhosaleharshita) 
+* [Rutuja Kanki](https://github.com/rutujakanki) 
