@@ -6,12 +6,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,9 +28,12 @@ import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.contactlessshopping.Customers.Login_customer;
 import com.example.contactlessshopping.Customers.Supermarket.Supermarket_MainActivity;
 import com.example.contactlessshopping.MainActivity;
 import com.example.contactlessshopping.R;
+import com.example.contactlessshopping.Shops.Supermarket.SupermarketMainShop;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -67,7 +75,7 @@ public class ShopRegistration extends AppCompatActivity {
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_ADDRESS = "address";
 
-    private EditText editTextShopName, editTextFromTime, editTextToTime, editTextCapacity, editTextPhoneNumber, editTextEmail, editTextPassword;
+    private EditText editTextShopName, editTextFromTime, editTextToTime, editTextCapacity;
     private RadioGroup radioTypeGroup;
     private RadioButton radioButton;
     private RadioButton radioButtonYes, radioButtonNo;
@@ -77,6 +85,10 @@ public class ShopRegistration extends AppCompatActivity {
     public String insertSlot, authid;
     private String LONGITUDE, LATITUDE, shop_name, phone_number, email_id, password, capacity, from_time, to_time, address = "NULL", shop_category;
 
+    int PERMISSION_ID = 44;
+    FusedLocationProviderClient mFusedLocationClient;
+    String LAT, LON;
+    double dlat, dlon;
 
     FirebaseAuth auth;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -95,10 +107,6 @@ public class ShopRegistration extends AppCompatActivity {
         editTextFromTime = (EditText) findViewById(R.id.idEtFromTime);
         editTextToTime = (EditText) findViewById(R.id.idEtToTime);
         editTextCapacity = (EditText) findViewById(R.id.idEtCapacity);
-       // editTextEmail = (EditText) findViewById(R.id.idEmail);
-       // editTextPassword = (EditText) findViewById(R.id.idPassword);
-       // editTextPhoneNumber = (EditText) findViewById(R.id.idPhoneNumber);
-
         progressDialog = new ProgressDialog(this);
 
 
@@ -117,6 +125,7 @@ public class ShopRegistration extends AppCompatActivity {
         IntendedauthID = intent.getStringExtra("intendAuthUID");
         Intendedphonenumber = intent.getStringExtra("intentPhoneNumber");
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         timeFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,17 +167,6 @@ public class ShopRegistration extends AppCompatActivity {
         });
 
 
-//
-//               System.out.println(authid + "\n");;
-        //               String[] itemsSlots = insertSlot.split(",");
-        //  String item;
-//                for (String item : itemsSlots) {
-//                    String noticeID =  UUID.randomUUID().toString().replaceAll("-", "");
-//
-//                    System.out.println("item = " + item + "\n" + "UID:" + noticeID);
-//                }
-
-
         if (ContextCompat.checkSelfPermission(
                 getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -182,8 +180,6 @@ public class ShopRegistration extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
-
                     radioButtonNo.setChecked(true);
                     Toast.makeText(ShopRegistration.this, "Sorry, this function is under work. Try again later", Toast.LENGTH_SHORT).show();
                     radioButtonYes.setChecked(false);
@@ -194,9 +190,7 @@ public class ShopRegistration extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
                     radioButtonYes.setChecked(false);
-
                     if (ContextCompat.checkSelfPermission(
                             getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(
@@ -205,7 +199,7 @@ public class ShopRegistration extends AppCompatActivity {
                                 REQUEST_CODE_LOCATION_PERMISSION
                         );
                     } else {
-                        getCurrentLocation();
+                        //getCurrentLocation();
                     }
                 }
             }
@@ -280,15 +274,10 @@ public class ShopRegistration extends AppCompatActivity {
                 }
 
                 shop_name = editTextShopName.getText().toString();
-               // phone_number = editTextPassword.getText().toString();
-               // email_id = editTextEmail.getText().toString();
-               // password = editTextPassword.getText().toString();
+
                 capacity = editTextCapacity.getText().toString();
                 from_time = editTextFromTime.getText().toString();
                 to_time = editTextToTime.getText().toString();
-                //address               = editTextToTime.getText().toString();
-//                dob                     = editTextDOB.getText().toString();
-
 
                 if (TextUtils.isEmpty(shop_name)) {
                     Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
@@ -300,26 +289,6 @@ public class ShopRegistration extends AppCompatActivity {
                     return;
                 }
 
-//                if (TextUtils.isEmpty(phone_number)) {
-//                    Toast.makeText(getApplicationContext(), "Enter Phone Number!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
-//                if (TextUtils.isEmpty(email_id)) {
-//                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                if (TextUtils.isEmpty(password)) {
-//                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
-//                if (password.length() < 6) {
-//                    Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-
 
                 progressDialog.setMessage("Registering ....");
                 progressDialog.show();
@@ -327,8 +296,6 @@ public class ShopRegistration extends AppCompatActivity {
                 Map<String, Object> note = new HashMap<>();
                 note.put(KEY_SHOPNAME, shop_name);
                 note.put(KEY_PHONE, Intendedphonenumber);
-//                note.put(KEY_EMAIL, email_id);
-//                note.put(KEY_PASSWORD, password);
                 note.put(KEY_CAPACITY, capacity);
                 note.put(KEY_FROM_TIME, from_time);
                 note.put(KEY_TO_TIME, to_time);
@@ -340,7 +307,7 @@ public class ShopRegistration extends AppCompatActivity {
                 progressDialog.show();
 
 
-                Toast.makeText(ShopRegistration.this,auth.getUid() +" in main",Toast.LENGTH_SHORT).show();
+                Toast.makeText(ShopRegistration.this, auth.getUid() + " in main", Toast.LENGTH_SHORT).show();
                 db.collection("shops").document(IntendedauthID).set(note)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -358,16 +325,15 @@ public class ShopRegistration extends AppCompatActivity {
                         });
 
 
-                if(shop_category == "SuperMarket")
-                {
-                    slots.put("shop_id",auth.getUid());
-                    Toast.makeText(ShopRegistration.this,auth.getUid()+" in cat",Toast.LENGTH_SHORT).show();
+                if (shop_category == "Supermarket") {
+                    slots.put("shop_id", auth.getUid());
+                    Toast.makeText(ShopRegistration.this, auth.getUid() + " in cat", Toast.LENGTH_SHORT).show();
                     db.collection("tokens").document(IntendedauthID).set(slots)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     //Toast.makeText(PatientRegister.this, "Data saved", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(ShopRegistration.this, Supermarket_MainActivity.class));
+                                    startActivity(new Intent(ShopRegistration.this, SupermarketMainShop.class));
                                     finish();
                                 }
                             })
@@ -381,10 +347,9 @@ public class ShopRegistration extends AppCompatActivity {
 
                 }
 
-                if(shop_category == "Grocery Store")
-                {
-                    slots.put("shop_id",auth.getUid());
-                    Toast.makeText(ShopRegistration.this,auth.getUid()+" in cat",Toast.LENGTH_SHORT).show();
+                if (shop_category == "Grocery Store") {
+                    slots.put("shop_id", auth.getUid());
+                    Toast.makeText(ShopRegistration.this, auth.getUid() + " in cat", Toast.LENGTH_SHORT).show();
                     db.collection("order_slot").document(IntendedauthID).set(slots)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -403,22 +368,6 @@ public class ShopRegistration extends AppCompatActivity {
                             });
 
                 }
-//                auth.createUserWithEmailAndPassword(email_id, password)
-//                        .addOnCompleteListener(ShopRegistration.this, new OnCompleteListener<AuthResult>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<AuthResult> task) {
-//                                progressDialog.dismiss();
-//                                if (!task.isSuccessful()) {
-//                                    Toast.makeText(ShopRegistration.this, "Authentication failed." + task.getException(),
-//                                            Toast.LENGTH_SHORT).show();
-//                                } else {
-//
-//
-//                                }
-//                            }
-//                        });
-
-
             }
 
         });
@@ -426,46 +375,149 @@ public class ShopRegistration extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
-            getCurrentLocation();
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(
+                        new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                Location location = task.getResult();
+                                if (location == null) {
+                                    requestNewLocationData();
+                                } else {
+                                    dlat = location.getLatitude();
+                                    LAT = String.valueOf(dlat);
+                                    dlon = location.getLongitude();
+                                    LON = String.valueOf(dlon);
+                                }
+                            }
+                        }
+                );
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
         } else {
-            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            requestPermissions();
         }
     }
 
-    private void getCurrentLocation() {
 
-        final LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
 
-        LocationServices.getFusedLocationProviderClient(ShopRegistration.this)
-                .requestLocationUpdates(locationRequest, new LocationCallback() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(0);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
 
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-                        LocationServices.getFusedLocationProviderClient(ShopRegistration.this)
-                                .removeLocationUpdates(this);
-                        if (locationResult != null && locationResult.getLocations().size() > 0) {
-                            int lastestLocationIndex = locationResult.getLocations().size() - 1;
-                            double latitude =
-                                    locationResult.getLocations().get(lastestLocationIndex).getLatitude();
-                            double longitude =
-                                    locationResult.getLocations().get(lastestLocationIndex).getLongitude();
-
-                            LATITUDE = String.format(String.valueOf(latitude));
-                            LONGITUDE = String.format(String.valueOf(longitude));
-
-                        }
-                    }
-                }, Looper.getMainLooper());
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(
+                mLocationRequest, mLocationCallback,
+                Looper.myLooper()
+        );
 
     }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            dlat = mLastLocation.getLatitude();
+            LAT = String.valueOf(dlat);
+            dlon = mLastLocation.getLongitude();
+            LON = String.valueOf(dlon);
+        }
+    };
+
+    private boolean checkPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        return false;
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                PERMISSION_ID
+        );
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+                LocationManager.NETWORK_PROVIDER
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkPermissions()) {
+            getLastLocation();
+        }
+
+    }
+
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+//            getCurrentLocation();
+//        } else {
+//            Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    private void getCurrentLocation() {
+//
+//        final LocationRequest locationRequest = new LocationRequest();
+//        locationRequest.setInterval(10000);
+//        locationRequest.setFastestInterval(3000);
+//        locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
+//
+//        LocationServices.getFusedLocationProviderClient(ShopRegistration.this)
+//                .requestLocationUpdates(locationRequest, new LocationCallback() {
+//
+//                    @Override
+//                    public void onLocationResult(LocationResult locationResult) {
+//                        super.onLocationResult(locationResult);
+//                        LocationServices.getFusedLocationProviderClient(ShopRegistration.this)
+//                                .removeLocationUpdates(this);
+//                        if (locationResult != null && locationResult.getLocations().size() > 0) {
+//                            int lastestLocationIndex = locationResult.getLocations().size() - 1;
+//                            double latitude =
+//                                    locationResult.getLocations().get(lastestLocationIndex).getLatitude();
+//                            double longitude =
+//                                    locationResult.getLocations().get(lastestLocationIndex).getLongitude();
+//
+//                            LATITUDE = String.format(String.valueOf(latitude));
+//                            LONGITUDE = String.format(String.valueOf(longitude));
+//
+//                        }
+//                    }
+//                }, Looper.getMainLooper());
+//
+//    }
 
 }
 
