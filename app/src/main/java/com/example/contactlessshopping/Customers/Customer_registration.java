@@ -1,5 +1,7 @@
 package com.example.contactlessshopping.Customers;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -36,6 +39,7 @@ public class Customer_registration extends AppCompatActivity {
     String sname, semail, spass, scustno;
     Button submit;
     String IntendedauthID;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +48,12 @@ public class Customer_registration extends AppCompatActivity {
 
 //        emailid=(EditText)findViewById(R.id.email);
 //        password=(EditText)findViewById(R.id.pass);
+        Context context;
+        progressDialog=new ProgressDialog(this);
         name = (EditText) findViewById(R.id.name);
         custno = (EditText) findViewById(R.id.custno);
         submit = (Button) findViewById(R.id.submitbt);
-
+//        progressBar=(ProgressBar)findViewById(R.id.pro);
 
 // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -57,6 +63,9 @@ public class Customer_registration extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressDialog.show();
+                progressDialog.setCancelable(false);
+                progressDialog.setMessage("Adding Details...");
 
                 sname = name.getText().toString();
                 scustno = custno.getText().toString();
@@ -72,7 +81,7 @@ public class Customer_registration extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(Customer_registration.this, "Data saved", Toast.LENGTH_SHORT).show();
-
+                                progressDialog.dismiss();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -80,6 +89,7 @@ public class Customer_registration extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
                                 //Toast.makeText(PatientRegister.this, "Error!", Toast.LENGTH_SHORT).show();
                                 Log.d("log", e.toString());
+                                progressDialog.dismiss();
                             }
                         });
 

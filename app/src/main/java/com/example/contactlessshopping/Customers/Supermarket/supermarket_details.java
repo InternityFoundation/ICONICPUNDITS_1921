@@ -66,7 +66,7 @@ public class supermarket_details extends AppCompatActivity {
     String shop_id, shop_name, capacity, token_no;
 
     Button get_token;
-    TextView token;
+    TextView token,slot,shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +78,17 @@ public class supermarket_details extends AppCompatActivity {
         shop_id = intent.getStringExtra("shop_id");
         shop_name = intent.getStringExtra("shop_name");
 
+
         //imageView = (ImageView) findViewById(R.id.imageView);
 
         get_token = findViewById(R.id.get_token);
         token = findViewById(R.id.token_no);
+        slot=findViewById(R.id.slot_no);
+        shop=findViewById(R.id.shop_name);
         get_token.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("tokens").document(shop_id).get()
+                db.collection("token_slots").document(shop_id).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -142,31 +145,45 @@ public class supermarket_details extends AppCompatActivity {
                                             if (slot_from.before(currtime) && currtime.before(slot_to)) {
                                                 if (mylist.size() != 10) {
 
-                                                    DocumentReference orderRefAccept = db.collection("tokens").document(shop_id);
-                                                    orderRefAccept.update(i, FieldValue.arrayUnion(token_no));
+                                                    DocumentReference orderRefAccept = db.collection("token_slots").document(shop_id);
+                                                    orderRefAccept.update(i, FieldValue.arrayUnion(auth.getUid()));
                                                     Toast.makeText(supermarket_details.this, i + " slot is allocated to you!!", Toast.LENGTH_SHORT).show();
-                                                    Map<String, Object> map = new HashMap<>();
-                                                    map.put("token_no", token_no);
+
                                                     Toast.makeText(supermarket_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_supermarket", token_no);
+
+                                                    Map<String,Object> token_doc=new HashMap<>();
+                                                    token_doc.put("shop_id",shop_id);
+                                                    token_doc.put("token_no",token_no);
+                                                    token_doc.put("customer_id",auth.getUid());
+                                                    token_doc.put("slot_allocated",i);
+
+                                                    db.collection("tokens").document(auth.getUid().toString()).set(token_doc);
                                                     Toast.makeText(supermarket_details.this, token_no, Toast.LENGTH_SHORT).show();
-                                                    token.setText(token_no);
+
                                                     break;
+
 
                                                 }
                                             } else if (slot_from.after(currtime)) {
                                                 if (mylist.size() != 10) {
 
-                                                    DocumentReference orderRefAccept = db.collection("tokens").document(shop_id);
-                                                    orderRefAccept.update(i, FieldValue.arrayUnion(token_no));
+                                                    DocumentReference orderRefAccept = db.collection("token_slots").document(shop_id);
+                                                    orderRefAccept.update(i, FieldValue.arrayUnion(auth.getUid()));
                                                     Toast.makeText(supermarket_details.this, i + " slot is allocated to you!!", Toast.LENGTH_SHORT).show();
-                                                    Map<String, Object> map = new HashMap<>();
-                                                    map.put("token_no", token_no);
+
                                                     Toast.makeText(supermarket_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_supermarket", token_no);
+
+                                                    Map<String,Object> token_doc=new HashMap<>();
+                                                    token_doc.put("shop_id",shop_id);
+                                                    token_doc.put("token_no",token_no);
+                                                    token_doc.put("customer_id",auth.getUid());
+                                                    token_doc.put("slot_allocated",i);
+
+                                                    db.collection("tokens").document(auth.getUid().toString()).set(token_doc);
                                                     Toast.makeText(supermarket_details.this, token_no, Toast.LENGTH_SHORT).show();
-                                                    token.setText(token_no);
+
                                                     break;
+
 
                                                 }
 
@@ -174,6 +191,31 @@ public class supermarket_details extends AppCompatActivity {
 
 
                                         }
+
+                                        db.collection("tokens").document(auth.getUid()).get()
+                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document.exists()) {
+                                                                Toast.makeText(supermarket_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
+                                                                token.setText(document.get("token_no").toString());
+                                                                slot.setText(document.get("slot_allocated").toString());
+                                                                shop.setText(shop_name);
+
+
+                                                            } else {
+                                                                Log.d("", "No such document");
+                                                            }
+                                                        } else {
+                                                            Log.d("", "get failed with ", task.getException());
+                                                        }
+                                                    }
+                                                });
+
+
+
 
                                     } else {
                                         Log.d("Tag", "No such document");
