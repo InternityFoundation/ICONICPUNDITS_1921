@@ -93,7 +93,7 @@ public class Login_customer extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         state = findViewById(R.id.state);
         resend = findViewById(R.id.resendOtpBtn);
-
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         resend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +101,14 @@ public class Login_customer extends AppCompatActivity {
             }
         });
 
-
+        if (ContextCompat.checkSelfPermission(
+                getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    Login_customer.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION_PERMISSION
+            );
+        }
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,15 +225,20 @@ public class Login_customer extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-
-                    startActivity(new Intent(getApplicationContext(), Customer_MainActivity.class));
-                    finish();
+                    Intent intent = new Intent(Login_customer.this, customer_dash.class);
+                    intent.putExtra("intendLatitude", LAT);
+                    intent.putExtra("intentLongitude", LON);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Toast.makeText(Login_customer.this, "Successfull Login", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
                 } else {
 //                    //Toast.makeText(Register.this, "Profile Do not Exists.", Toast.LENGTH_SHORT).show();
 //                    startActivity(new Intent(getApplicationContext(), Customer_registration.class));
 //                    finish();
                     Intent intent = new Intent(Login_customer.this, Customer_registration.class);
                     intent.putExtra("intendAuthUID", fAuth.getUid());
+                    intent.putExtra("intendLatitude", LAT);
+                    intent.putExtra("intentLongitude", LON);
                     //intent.putExtra("intentPhoneNumber", phone.getText().toString());
 //
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -241,14 +253,7 @@ public class Login_customer extends AppCompatActivity {
         });
 
 
-        if (ContextCompat.checkSelfPermission(
-                getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    Login_customer.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    REQUEST_CODE_LOCATION_PERMISSION
-            );
-        }
+
 
 
     }
