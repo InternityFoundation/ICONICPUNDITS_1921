@@ -36,6 +36,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="10"
+        android:foregroundGravity="center"
         android:layout_below="@id/lay1"
         android:background="#f0f0f0"
         tools:context=".Customers.customer_dash">
@@ -330,7 +331,7 @@
         android:background="@drawable/rounded"
         android:id="@+id/nav"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         android:layout_alignParentBottom="true"
