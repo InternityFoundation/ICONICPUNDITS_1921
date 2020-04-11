@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
+import com.example.contactlessshopping.Customers.Supermarket.supermarket_details;
 import com.example.contactlessshopping.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +46,8 @@ public class vegetable_details extends AppCompatActivity {
     String shop_id,shop_name,capacity,token_no;
 
     Button get_token;
-    TextView token;
+    TextView token,slot,shop;
+    CardView card;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +58,14 @@ public class vegetable_details extends AppCompatActivity {
         shop_id=intent.getStringExtra("shop_id");
         shop_name=intent.getStringExtra("shop_name");
 
-        get_token=findViewById(R.id.get_token3);
-        token=findViewById(R.id.token_no3);
+        get_token=findViewById(R.id.get_token);
+        token=findViewById(R.id.token_no);
+        slot=findViewById(R.id.slot_no);
+        shop=findViewById(R.id.shop_name);
         get_token.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.collection("tokens").document(shop_id).get()
+                db.collection("token_slots").document(shop_id).get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -111,16 +116,23 @@ public class vegetable_details extends AppCompatActivity {
                                             {
                                                 if (mylist.size() != 10) {
 
-                                                    DocumentReference orderRefAccept = db.collection("tokens").document(shop_id);
-                                                    orderRefAccept.update(i, FieldValue.arrayUnion(token_no));
+                                                    DocumentReference orderRefAccept = db.collection("token_slots").document(shop_id);
+                                                    orderRefAccept.update(i, FieldValue.arrayUnion(auth.getUid()));
                                                     Toast.makeText(vegetable_details.this, i + " slot is allocated to you!!", Toast.LENGTH_SHORT).show();
-                                                    Map<String, Object> map = new HashMap<>();
-                                                    map.put("token_no", token_no);
+
                                                     Toast.makeText(vegetable_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_vegetable", token_no);
+
+                                                    Map<String,Object> token_doc=new HashMap<>();
+                                                    token_doc.put("shop_id",shop_id);
+                                                    token_doc.put("token_no",token_no);
+                                                    token_doc.put("customer_id",auth.getUid());
+                                                    token_doc.put("slot_allocated",i);
+
+                                                    db.collection("tokens").document(auth.getUid().toString()).set(token_doc);
                                                     Toast.makeText(vegetable_details.this, token_no, Toast.LENGTH_SHORT).show();
-                                                    token.setText(token_no);
+
                                                     break;
+
 
                                                 }
                                             }
@@ -128,16 +140,23 @@ public class vegetable_details extends AppCompatActivity {
                                             {
                                                 if (mylist.size() != 10) {
 
-                                                    DocumentReference orderRefAccept = db.collection("tokens").document(shop_id);
-                                                    orderRefAccept.update(i, FieldValue.arrayUnion(token_no));
+                                                    DocumentReference orderRefAccept = db.collection("token_slots").document(shop_id);
+                                                    orderRefAccept.update(i, FieldValue.arrayUnion(auth.getUid()));
                                                     Toast.makeText(vegetable_details.this, i + " slot is allocated to you!!", Toast.LENGTH_SHORT).show();
-                                                    Map<String, Object> map = new HashMap<>();
-                                                    map.put("token_no", token_no);
+
                                                     Toast.makeText(vegetable_details.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
-                                                    db.collection("customers").document(auth.getUid().toString()).update("token_vegetable", token_no);
+
+                                                    Map<String,Object> token_doc=new HashMap<>();
+                                                    token_doc.put("shop_id",shop_id);
+                                                    token_doc.put("token_no",token_no);
+                                                    token_doc.put("customer_id",auth.getUid());
+                                                    token_doc.put("slot_allocated",i);
+
+                                                    db.collection("tokens").document(auth.getUid().toString()).set(token_doc);
                                                     Toast.makeText(vegetable_details.this, token_no, Toast.LENGTH_SHORT).show();
-                                                    token.setText(token_no);
+
                                                     break;
+
 
                                                 }
 
@@ -151,6 +170,30 @@ public class vegetable_details extends AppCompatActivity {
                                     }
                                 } else {
                                     Log.d("Tag", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+
+                db.collection("tokens").document(auth.getUid()).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        get_token.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(vegetable_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
+                                        token.setText(document.get("token_no").toString());
+                                        slot.setText(document.get("slot_allocated").toString());
+                                        shop.setText(shop_name);
+
+
+                                    } else {
+                                        Log.d("", "No Appointment found");
+                                        card.setVisibility(View.INVISIBLE);
+                                    }
+                                } else {
+                                    Log.d("", "get failed with ", task.getException());
                                 }
                             }
                         });

@@ -8,15 +8,11 @@
     tools:context=".Customers.Supermarket.supermarket_details">
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         android:orientation="vertical">
-
-
 
 
         <androidx.cardview.widget.CardView

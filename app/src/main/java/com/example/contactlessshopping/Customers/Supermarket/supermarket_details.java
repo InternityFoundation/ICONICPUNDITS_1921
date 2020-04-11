@@ -191,12 +191,7 @@ public class supermarket_details extends AppCompatActivity {
                                                 }
 
                                             }
-
-
                                         }
-
-
-
 
                                     } else {
                                         Log.d("Tag", "No such document");

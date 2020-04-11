@@ -2,6 +2,7 @@ package com.example.contactlessshopping.Customers.Fishmarket;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,7 +51,8 @@ public class fishmarket_details extends AppCompatActivity {
     String shop_id,shop_name,capacity,token_no;
 
     Button get_token;
-    TextView token;
+    TextView token,slot,shop;
+    CardView card;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
