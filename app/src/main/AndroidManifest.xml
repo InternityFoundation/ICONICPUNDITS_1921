@@ -47,6 +47,8 @@
         <activity android:name=".Shops.Main.OrderDetails" />
         <activity android:name=".Shops.ShopMainActivity" />
         <activity android:name=".Shops.Main.ShopLogin"/>
+        <activity android:name=".Customers.Customer_survey"/>
+        <activity android:name=".Shops.shop_profile"/>
 
 
     </application>
