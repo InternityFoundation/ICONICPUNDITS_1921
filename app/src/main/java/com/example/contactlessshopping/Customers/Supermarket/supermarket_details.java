@@ -2,6 +2,7 @@ package com.example.contactlessshopping.Customers.Supermarket;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -67,6 +68,7 @@ public class supermarket_details extends AppCompatActivity {
 
     Button get_token;
     TextView token,slot,shop;
+    CardView card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +83,7 @@ public class supermarket_details extends AppCompatActivity {
 
         //imageView = (ImageView) findViewById(R.id.imageView);
 
+        card=findViewById(R.id.card_view);
         get_token = findViewById(R.id.get_token);
         token = findViewById(R.id.token_no);
         slot=findViewById(R.id.slot_no);
@@ -192,28 +195,6 @@ public class supermarket_details extends AppCompatActivity {
 
                                         }
 
-                                        db.collection("tokens").document(auth.getUid()).get()
-                                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                        if (task.isSuccessful()) {
-                                                            DocumentSnapshot document = task.getResult();
-                                                            if (document.exists()) {
-                                                                Toast.makeText(supermarket_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
-                                                                token.setText(document.get("token_no").toString());
-                                                                slot.setText(document.get("slot_allocated").toString());
-                                                                shop.setText(shop_name);
-
-
-                                                            } else {
-                                                                Log.d("", "No such document");
-                                                            }
-                                                        } else {
-                                                            Log.d("", "get failed with ", task.getException());
-                                                        }
-                                                    }
-                                                });
-
 
 
 
@@ -228,6 +209,33 @@ public class supermarket_details extends AppCompatActivity {
 
             }
         });
+
+
+        db.collection("tokens").document(auth.getUid()).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                get_token.setVisibility(View.INVISIBLE);
+                                Toast.makeText(supermarket_details.this,"appointment scheduled",Toast.LENGTH_SHORT).show();
+                                token.setText(document.get("token_no").toString());
+                                slot.setText(document.get("slot_allocated").toString());
+                                shop.setText(shop_name);
+
+
+                            } else {
+                                Log.d("", "No Appointment found");
+                                card.setVisibility(View.INVISIBLE);
+                            }
+                        } else {
+                            Log.d("", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+
 
     }
 
