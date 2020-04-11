@@ -42,7 +42,7 @@ public class Customer_registration extends AppCompatActivity {
         setContentView(R.layout.activity_customer_registration);
 
         emailid=(EditText)findViewById(R.id.email);
-        password=(EditText)findViewById(R.id.pass);
+//        password=(EditText)findViewById(R.id.pass);
         name=(EditText)findViewById(R.id.name);
         custno=(EditText)findViewById(R.id.custno);
         submit=(Button)findViewById(R.id.submitbt);
@@ -60,11 +60,11 @@ public class Customer_registration extends AppCompatActivity {
             public void onClick(View view) {
 
                  semail=emailid.getText().toString();
-                 spass=password.getText().toString();
+//                 spass=password.getText().toString();
                  sname=name.getText().toString();
                  scustno=custno.getText().toString();
 
-                if (!TextUtils.isEmpty(semail) && !TextUtils.isEmpty(spass) &&!TextUtils.isEmpty(sname) &&!TextUtils.isEmpty(scustno)) {
+                if (!TextUtils.isEmpty(semail)  &&!TextUtils.isEmpty(sname) &&!TextUtils.isEmpty(scustno)) {
                     createuser(semail, spass);
                 } else {
 

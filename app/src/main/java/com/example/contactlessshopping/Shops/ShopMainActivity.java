@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.contactlessshopping.R;
@@ -31,7 +32,7 @@ public class ShopMainActivity extends AppCompatActivity {
     private AppBarLayout appBarLayout;
     private ViewPager viewPager;
     private TextView textViewShopname;
-    Button edit;
+    ImageView edit;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private FirebaseAuth auth;
@@ -48,7 +49,7 @@ public class ShopMainActivity extends AppCompatActivity {
         appBarLayout = (AppBarLayout) findViewById(R.id.idAppbar);
         viewPager = (ViewPager) findViewById(R.id.idViewPager);
         textViewShopname = (TextView) findViewById(R.id.idShopName);
-        edit=(Button) findViewById(R.id.p_edit);
+        edit=(ImageView) findViewById(R.id.p_edit);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter((getSupportFragmentManager()));
 

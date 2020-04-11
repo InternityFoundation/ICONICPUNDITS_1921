@@ -7,13 +7,12 @@
     android:layout_height="match_parent">
 
 
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_sans_bold"
-        android:text="OTP AUTH"
+        android:text="LOGIN"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
