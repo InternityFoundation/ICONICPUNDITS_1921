@@ -358,7 +358,7 @@ public class ShopRegistration extends AppCompatActivity {
                         });
 
 
-                if(shop_category=="SuperMarket")
+                if(shop_category == "SuperMarket")
                 {
                     slots.put("shop_id",auth.getUid());
                     Toast.makeText(ShopRegistration.this,auth.getUid()+" in cat",Toast.LENGTH_SHORT).show();

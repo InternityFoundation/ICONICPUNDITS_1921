@@ -38,12 +38,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +47,7 @@ public class ShopLogin extends AppCompatActivity {
 
 //    private EditText editTextEmail, editTextPassword;
 //    private FirebaseAuth auth;
-////    private ProgressDialog progressDialog;
+//    private ProgressDialog progressDialog;
 //    LottieAnimationView lottieAnimationView;
 //    private Button btnSignup, btnLogin, btnReset;
 //    private FirebaseFirestore db = FirebaseFirestore.getInstance();
