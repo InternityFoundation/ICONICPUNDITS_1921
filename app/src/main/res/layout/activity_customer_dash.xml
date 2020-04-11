@@ -74,26 +74,23 @@
                     android:orientation="vertical"
                     android:layout_marginBottom="20dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/g"
-                        android:layout_weight="0.8"/>
+                        android:src="@drawable/groceryicon" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:text="Grocery Stores"
+                        android:text="Text"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:layout_weight="0.2"/>
+                        android:gravity="center_horizontal" />
 
                 </LinearLayout>
 
@@ -117,26 +114,22 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:src="@drawable/market"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"/>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Super Markets"
+                        android:text="Text2"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -163,26 +156,22 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:src="@drawable/pharmacy"
+                        android:src="@drawable/medicine"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"/>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Medical Stores"
+                        android:text="Text3"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -206,26 +195,22 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:src="@drawable/shop"
+                        android:src="@drawable/fruit"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"/>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
                         android:text="Text4"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -257,19 +242,16 @@
                         android:src="@drawable/fishmarket"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"/>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
                         android:text="Text"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -293,26 +275,22 @@
                     android:layout_margin="16dp"
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:weightSum="1">
+                    android:layout_height="wrap_content">
 
                     <ImageView
-                        android:src="@drawable/petshop"
+                        android:src="@drawable/butcher"
                         android:layout_gravity="center_horizontal"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.8"/>
+                        android:layout_height="wrap_content" />
 
                     <TextView
                         android:textAlignment="center"
-                        android:layout_gravity="center_horizontal"
                         android:text="Text2"
                         android:textColor="#000"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"/>
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
