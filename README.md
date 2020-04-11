@@ -1,6 +1,6 @@
 # ICONICPUNDITS_1921
-# TEAM NAME: ICONIC PUNDITS
-# TEAM ID: 1921
+## TEAM NAME: ICONIC PUNDITS
+## TEAM ID: 1921
 ## IDEA TITLE: Hassle Free Shopping in era of COVID-19
 ### Problem focussed
 People who did not resort to stockpiling of items of daily use had to face major inconvenience in recent days as grocery stores in many localities remained closed despite being given exemption under the lockdown till next 20 days.
@@ -13,3 +13,8 @@ We propose a solution to this problem. A mobile application can be built which c
 
 ### How the solution will impact people 
 The overcrowding of shops(Grocery Stores,Pharmaceutical Stores,Super Markets) will stop by the use of this application.All the people who want to buy any product will use this application to avail the essential services.It will ensure undisturbed supply of the essential services assuring that all the social distancing measures are followed.It will assist the store owners in managing the crowd.
+
+### Authors
+@bhosaleharshita
+@ap299
+@rutujakanki
