@@ -110,7 +110,19 @@ public class ManageOrders extends AppCompatActivity {
 
                 if (documentSnapshot.get("status").toString().equals("1")) {
                     Toast.makeText(ManageOrders.this, "SLOT NOT ALLOCATED YET", Toast.LENGTH_SHORT).show();
-                } else if(documentSnapshot.get("status").toString().equals("2")) {
+                }
+
+                else if(documentSnapshot.get("status").toString().equals("3"))
+                {
+                    //Toast.makeText(ManageOrders.this,order_status+" in",Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(ManageOrders.this,Customer_survey.class);
+                    i.putExtra("order_id",documentSnapshot.get("order_id").toString());
+                    startActivity(i);
+
+
+                }
+
+                else if(documentSnapshot.get("status").toString().equals("2")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(
                             ManageOrders.this);
                     builder.setTitle("Picking up order?");
