@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Shops.ShopMainActivity">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/idAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:elevation="0dp"
+
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NAME"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:id="@+id/idShopName"
+                android:padding="5dp"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:id="@+id/p_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:background="@drawable/textview_rounded"/>l
+
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/idTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/colorPrimary"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/tabtextcolor"
+        app:tabIndicatorColor="#FFEE58"
+        android:background="@color/colorPrimary"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/idViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
