@@ -69,7 +69,6 @@ public class Fishmarket_MainActivity extends AppCompatActivity {
                 .setQuery(query, Shopsclass.class)
                 .build();
         adapter=new fishmarketAdapter(response,dlat,dlon, com.example.contactlessshopping.Customers.Fishmarket.Fishmarket_MainActivity.this);
-
         adapter.notifyDataSetChanged();
         shoplist.setAdapter(adapter);
 
@@ -78,7 +77,7 @@ public class Fishmarket_MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
 
-                Intent intent = new Intent(com.example.contactlessshopping.Customers.Fishmarket.Fishmarket_MainActivity.this, supermarket_details.class);
+                Intent intent = new Intent(com.example.contactlessshopping.Customers.Fishmarket.Fishmarket_MainActivity.this, fishmarket_details.class);
                 //intent.putExtra("intendListImageUrl", documentSnapshot.get("url").toString());
                 intent.putExtra("shop_name", documentSnapshot.get("shop_name").toString());
                 intent.putExtra("shop_id",documentSnapshot.getId());
