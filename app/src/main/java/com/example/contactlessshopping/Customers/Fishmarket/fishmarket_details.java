@@ -54,15 +54,15 @@ public class fishmarket_details extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_supermarket_details);
+        setContentView(R.layout.activity_fishmarket_details);
         auth=FirebaseAuth.getInstance();
 
         final Intent intent=getIntent();
         shop_id=intent.getStringExtra("shop_id");
         shop_name=intent.getStringExtra("shop_name");
 
-        get_token=findViewById(R.id.get_token);
-        token=findViewById(R.id.token_no);
+        get_token=findViewById(R.id.get_token2);
+        token=findViewById(R.id.token_no2);
         get_token.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
