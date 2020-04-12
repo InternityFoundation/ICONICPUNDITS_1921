@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -93,12 +94,12 @@ public class customer_dash extends AppCompatActivity {
     private FirebaseFirestore db;
     double dlat, dlon;
     String slat,slon;
-    LinearLayoutManager gridLayoutManager;
-
     // MeowBottomNavigation meowBottomNavigation;
     private final static int ID_LIST=1;
     private final static int ID_ORDERS=2;
     private final static int ID_PROFILE=3;
+
+    LinearLayout linearLayout;
 
     GridLayout gridLayout;
     private ArrayList<HashMap<String, Object>> maplist = new ArrayList<>();
@@ -118,6 +119,8 @@ public class customer_dash extends AppCompatActivity {
 
         gridLayout= (GridLayout) findViewById(R.id.mainGrid);
         setSingleEvent(gridLayout);
+
+
 
         BottomNavigationView bottomNavigationView= findViewById(R.id.nav);
         bottomNavigationView.setSelectedItemId(R.id.item1);

@@ -38,6 +38,7 @@ import com.example.contactlessshopping.Shops.PhoneAuthLogin.CountryData;
 import com.example.contactlessshopping.Shops.PhoneAuthLogin.LoginTemp;
 import com.example.contactlessshopping.Shops.ShopMainActivity;
 import com.example.contactlessshopping.Shops.ShopRegistration;
+import com.example.contactlessshopping.Shops.Supermarket.SupermarketMainShop;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -261,7 +262,7 @@ public class ShopLogin extends AppCompatActivity {
                             }
                             if (shop_category.equals("Supermarket")) {
 
-                                Intent intent = new Intent(ShopLogin.this, Supermarket_MainActivity.class);
+                                Intent intent = new Intent(ShopLogin.this, SupermarketMainShop.class);
                                 intent.putExtra("intendAuthUID", fAuth.getUid());
                                 intent.putExtra("intendLatitude", LAT);
                                 intent.putExtra("intentLongitude", LON);
